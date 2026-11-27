@@ -105,13 +105,42 @@
     }
   ];
 
+  // 用語の分野
+  var CATEGORY = {
+    "CPU": "ハードウェア",
+    "メモリ": "ハードウェア",
+    "OS": "ソフトウェア",
+    "アルゴリズム": "プログラミング",
+    "データ構造": "プログラミング",
+    "コンパイラ": "プログラミング",
+    "インタプリタ": "プログラミング",
+    "IPアドレス": "ネットワーク",
+    "DNS": "ネットワーク",
+    "TCP/IP": "ネットワーク",
+    "HTTP / HTTPS": "ネットワーク",
+    "データベース": "データベース",
+    "SQL": "データベース",
+    "API": "開発",
+    "オブジェクト指向": "プログラミング",
+    "バグ": "開発",
+    "暗号化": "セキュリティ",
+    "ファイアウォール": "セキュリティ",
+    "クラウドコンピューティング": "インフラ",
+    "バージョン管理": "開発"
+  };
+
   var cardEl = document.getElementById("card");
-  var cardArea = cardEl.parentElement;
+  var cardArea = document.getElementById("cardArea");
+  var categoryEl = document.getElementById("cardCategory");
+  var noEl = document.getElementById("cardNo");
+  var noBackEl = document.getElementById("cardNoBack");
+  var counterNowEl = document.getElementById("counterNow");
+  var counterTotalEl = document.getElementById("counterTotal");
+  var flipBtn = document.getElementById("flipBtn");
   var termEl = document.getElementById("cardTerm");
   var readingEl = document.getElementById("cardReading");
   var backTermEl = document.getElementById("cardBackTerm");
   var descEl = document.getElementById("cardDesc");
-  var counterEl = document.getElementById("counter");
   var progressEl = document.getElementById("progressBar");
   var prevBtn = document.getElementById("prevBtn");
   var nextBtn = document.getElementById("nextBtn");
@@ -120,6 +149,10 @@
   var order = WORDS.map(function (_, i) { return i; });
   var current = 0;
 
+  function pad(n) {
+    return n < 10 ? "0" + n : String(n);
+  }
+
   function render() {
     var word = WORDS[order[current]];
     termEl.textContent = word.term;
@@ -127,7 +160,13 @@
     backTermEl.textContent = word.term;
     descEl.textContent = word.desc;
 
-    counterEl.textContent = (current + 1) + " / " + WORDS.length;
+    var no = "No." + pad(order[current] + 1);
+    categoryEl.textContent = CATEGORY[word.term] || "IT";
+    noEl.textContent = no;
+    noBackEl.textContent = no;
+
+    counterNowEl.textContent = pad(current + 1);
+    counterTotalEl.textContent = pad(WORDS.length);
     progressEl.style.width = ((current + 1) / WORDS.length * 100) + "%";
 
     prevBtn.disabled = current === 0;
@@ -210,6 +249,7 @@
   prevBtn.addEventListener("click", prev);
   nextBtn.addEventListener("click", next);
   shuffleBtn.addEventListener("click", shuffle);
+  flipBtn.addEventListener("click", flip);
 
   // キーボード操作（PC）
   document.addEventListener("keydown", function (e) {
