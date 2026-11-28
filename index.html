@@ -21,13 +21,35 @@
 
   <div class="app">
     <header class="header">
-      <p class="eyebrow">&lt;/&gt; TECH VOCABULARY</p>
-      <h1 class="title">IT用語 <span class="title-accent">単語帳</span></h1>
+      <div class="header-text">
+        <p class="eyebrow">&lt;/&gt; TECH VOCABULARY</p>
+        <h1 class="title">IT用語 <span class="title-accent">単語帳</span></h1>
+      </div>
+      <button type="button" class="icon-btn" id="openManageBtn" aria-label="単語の一覧・追加・編集">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h10"/></svg>
+        <span>単語管理</span>
+      </button>
     </header>
 
     <main class="main">
+      <!-- カテゴリ -->
+      <div class="chips" id="categoryChips" role="tablist" aria-label="カテゴリ"></div>
+
+      <!-- 学習状況 -->
+      <div class="toolbar">
+        <label class="switch">
+          <input type="checkbox" id="onlyUnknown">
+          <span class="switch-track" aria-hidden="true"><span class="switch-thumb"></span></span>
+          <span class="switch-label">未習得のみ</span>
+        </label>
+        <span class="stats" id="stats"></span>
+        <button type="button" class="icon-btn icon-only" id="shuffleBtn" aria-label="シャッフル" title="シャッフル">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 4h4v4M4 20L20 4M20 16v4h-4M15 15l5 5M4 4l5 5"/></svg>
+        </button>
+      </div>
+
       <div class="status">
-        <span class="counter" id="counter" aria-live="polite">
+        <span class="counter" aria-live="polite">
           <span class="counter-now" id="counterNow">01</span>
           <span class="counter-sep">/</span>
           <span class="counter-total" id="counterTotal">20</span>
@@ -37,13 +59,17 @@
         </div>
       </div>
 
+      <!-- カード -->
       <div class="card-area" id="cardArea">
         <button type="button" class="card" id="card" aria-label="カード。クリックで表と裏を切り替え">
           <span class="card-inner">
             <span class="card-face card-front">
               <span class="card-top">
                 <span class="chip" id="cardCategory"></span>
-                <span class="card-no" id="cardNo"></span>
+                <span class="card-meta">
+                  <span class="mark-badge" id="markBadge"></span>
+                  <span class="card-no" id="cardNo"></span>
+                </span>
               </span>
               <span class="card-body">
                 <span class="card-term" id="cardTerm"></span>
@@ -57,7 +83,10 @@
             <span class="card-face card-back">
               <span class="card-top">
                 <span class="chip chip-back">意味</span>
-                <span class="card-no" id="cardNoBack"></span>
+                <span class="card-meta">
+                  <span class="mark-badge" id="markBadgeBack"></span>
+                  <span class="card-no" id="cardNoBack"></span>
+                </span>
               </span>
               <span class="card-body card-body-back">
                 <span class="card-back-term" id="cardBackTerm"></span>
@@ -71,19 +100,27 @@
             </span>
           </span>
         </button>
+
+        <div class="empty" id="emptyState" hidden>
+          <p class="empty-icon" aria-hidden="true">&#127881;</p>
+          <p class="empty-title" id="emptyTitle"></p>
+          <p class="empty-text" id="emptyText"></p>
+          <button type="button" class="pill-btn pill-ghost" id="emptyAction"></button>
+        </div>
       </div>
 
+      <!-- 操作 -->
       <nav class="controls" aria-label="カード操作">
         <button type="button" class="nav-btn" id="prevBtn" aria-label="前のカード">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
         </button>
-        <button type="button" class="pill-btn" id="flipBtn">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12a8 8 0 0 1 14-5.3M20 4v5h-5M20 12a8 8 0 0 1-14 5.3M4 20v-5h5"/></svg>
-          <span>裏返す</span>
+        <button type="button" class="mark-btn mark-unknown" id="unknownBtn">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+          <span>まだ</span>
         </button>
-        <button type="button" class="pill-btn pill-ghost" id="shuffleBtn">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 4h4v4M4 20L20 4M20 16v4h-4M15 15l5 5M4 4l5 5"/></svg>
-          <span>シャッフル</span>
+        <button type="button" class="mark-btn mark-known" id="knownBtn">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg>
+          <span>覚えた</span>
         </button>
         <button type="button" class="nav-btn" id="nextBtn" aria-label="次のカード">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
@@ -91,12 +128,73 @@
       </nav>
 
       <p class="help">
-        <span class="help-pc"><kbd>←</kbd><kbd>→</kbd> 移動　<kbd>Space</kbd> 裏返す</span>
-        <span class="help-sp">カードを左右にスワイプして移動</span>
+        <span class="help-pc"><kbd>←</kbd><kbd>→</kbd> 移動　<kbd>Space</kbd> 裏返す　<kbd>↑</kbd> 覚えた　<kbd>↓</kbd> まだ</span>
+        <span class="help-sp">スワイプで移動・カードをタップで裏返す</span>
       </p>
     </main>
   </div>
 
+  <!-- 単語管理シート -->
+  <div class="overlay" id="manageSheet" hidden>
+    <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="manageTitle">
+      <div class="sheet-head">
+        <h2 class="sheet-title" id="manageTitle">単語管理</h2>
+        <button type="button" class="close-btn" data-close aria-label="閉じる">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+        </button>
+      </div>
+      <div class="sheet-tools">
+        <input type="search" class="input" id="searchInput" placeholder="用語・説明を検索" aria-label="単語を検索">
+        <button type="button" class="pill-btn pill-primary" id="addWordBtn">＋ 追加</button>
+      </div>
+      <p class="list-count" id="listCount"></p>
+      <ul class="word-list" id="wordList"></ul>
+      <div class="sheet-foot">
+        <button type="button" class="text-btn" id="resetProgressBtn">学習記録をリセット</button>
+        <button type="button" class="text-btn danger" id="resetWordsBtn">単語を初期状態に戻す</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 追加・編集フォーム -->
+  <div class="overlay overlay-center" id="formModal" hidden>
+    <form class="modal" id="wordForm" role="dialog" aria-modal="true" aria-labelledby="formTitle" novalidate>
+      <div class="sheet-head">
+        <h2 class="sheet-title" id="formTitle">単語を追加</h2>
+        <button type="button" class="close-btn" data-close aria-label="閉じる">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+        </button>
+      </div>
+      <label class="field">
+        <span class="field-label">用語 <em>必須</em></span>
+        <input type="text" class="input" name="term" maxlength="60" required>
+      </label>
+      <label class="field">
+        <span class="field-label">読み・英語名</span>
+        <input type="text" class="input" name="reading" maxlength="100">
+      </label>
+      <label class="field">
+        <span class="field-label">カテゴリ <em>必須</em></span>
+        <input type="text" class="input" name="category" maxlength="30" list="categoryOptions" required placeholder="例: ネットワーク">
+        <datalist id="categoryOptions"></datalist>
+      </label>
+      <label class="field">
+        <span class="field-label">説明 <em>必須</em></span>
+        <textarea class="input textarea" name="desc" rows="5" maxlength="400" required></textarea>
+      </label>
+      <p class="form-error" id="formError" role="alert"></p>
+      <div class="form-actions">
+        <button type="button" class="text-btn danger" id="deleteWordBtn">削除</button>
+        <span class="spacer"></span>
+        <button type="button" class="pill-btn pill-ghost" data-close>キャンセル</button>
+        <button type="submit" class="pill-btn pill-primary">保存</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="words.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
