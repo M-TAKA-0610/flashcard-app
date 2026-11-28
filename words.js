@@ -1,0 +1,135 @@
+// 初期データ（情報技術の基本用語）
+// 自分で追加・編集・削除した単語はブラウザ（localStorage）に保存されます。
+window.DEFAULT_WORDS = [
+  // ===== ハードウェア =====
+  { id: "w001", category: "ハードウェア", term: "CPU", reading: "Central Processing Unit / 中央処理装置", desc: "コンピュータの頭脳にあたる装置。プログラムの命令を解釈・実行し、演算や各装置の制御を行う。性能はクロック周波数やコア数などで表される。" },
+  { id: "w002", category: "ハードウェア", term: "メモリ", reading: "主記憶装置 / RAM", desc: "CPUが処理するプログラムやデータを一時的に保存する装置。読み書きが高速だが、電源を切ると内容が消える（揮発性）。" },
+  { id: "w003", category: "ハードウェア", term: "SSD", reading: "Solid State Drive", desc: "フラッシュメモリを使った補助記憶装置。HDDより読み書きが高速で、衝撃に強く静か。電源を切ってもデータが消えない（不揮発性）。" },
+  { id: "w004", category: "ハードウェア", term: "HDD", reading: "Hard Disk Drive", desc: "磁気ディスクを回転させてデータを読み書きする補助記憶装置。容量あたりの価格が安いが、SSDより低速で衝撃に弱い。" },
+  { id: "w005", category: "ハードウェア", term: "GPU", reading: "Graphics Processing Unit", desc: "画像処理に特化したプロセッサ。多数の演算を同時に並列処理できるため、3D描画のほか機械学習の計算にも広く使われる。" },
+  { id: "w006", category: "ハードウェア", term: "キャッシュメモリ", reading: "Cache Memory", desc: "CPUとメインメモリの速度差を埋めるために置かれる、小容量で高速なメモリ。よく使うデータを保持して処理を速くする。" },
+  { id: "w007", category: "ハードウェア", term: "クロック周波数", reading: "Clock Frequency", desc: "CPUが1秒間に刻む動作の基準信号の回数。単位はHz（ヘルツ）で、一般に値が大きいほど処理が速い。" },
+  { id: "w008", category: "ハードウェア", term: "ビットとバイト", reading: "bit / byte", desc: "ビットは0か1を表す情報の最小単位。8ビットをまとめて1バイトといい、1バイトで256通りの値を表せる。" },
+  { id: "w009", category: "ハードウェア", term: "2進数", reading: "Binary Number", desc: "0と1の2つの数字だけで数を表す方法。コンピュータ内部では電気信号のオン・オフに対応させ、すべてのデータを2進数で扱う。" },
+  { id: "w010", category: "ハードウェア", term: "入出力装置", reading: "I/O Device", desc: "コンピュータにデータを入力・出力する装置。キーボードやマウスは入力装置、ディスプレイやプリンタは出力装置にあたる。" },
+
+  // ===== OS・ソフトウェア =====
+  { id: "w011", category: "OS・ソフトウェア", term: "OS", reading: "Operating System / オペレーティングシステム", desc: "ハードウェアを管理し、アプリケーションが動作するための基盤を提供する基本ソフトウェア。Windows、macOS、Linux、Android、iOS などがある。" },
+  { id: "w012", category: "OS・ソフトウェア", term: "カーネル", reading: "Kernel", desc: "OSの中核部分。メモリ管理、プロセス管理、デバイス制御など、ハードウェアに近い基本機能を担う。" },
+  { id: "w013", category: "OS・ソフトウェア", term: "プロセス", reading: "Process", desc: "実行中のプログラムのこと。OSはプロセスごとにメモリなどの資源を割り当て、切り替えながら複数のプログラムを動かす。" },
+  { id: "w014", category: "OS・ソフトウェア", term: "スレッド", reading: "Thread", desc: "プロセスの中で実行される処理の流れの単位。1つのプロセスで複数のスレッドを動かすと、処理を並行して進められる。" },
+  { id: "w015", category: "OS・ソフトウェア", term: "仮想メモリ", reading: "Virtual Memory", desc: "ストレージの一部をメモリのように使い、実際のメモリ容量より大きな記憶領域があるように見せる仕組み。" },
+  { id: "w016", category: "OS・ソフトウェア", term: "ファイルシステム", reading: "File System", desc: "ストレージ上のデータをファイルやフォルダとして管理する仕組み。NTFS、APFS、ext4 などがある。" },
+  { id: "w017", category: "OS・ソフトウェア", term: "デバイスドライバ", reading: "Device Driver", desc: "OSがプリンタやグラフィックボードなどの周辺機器を制御するためのソフトウェア。" },
+  { id: "w018", category: "OS・ソフトウェア", term: "ミドルウェア", reading: "Middleware", desc: "OSとアプリケーションの間で働き、共通の機能を提供するソフトウェア。データベース管理システムやWebサーバなどが該当する。" },
+  { id: "w019", category: "OS・ソフトウェア", term: "オープンソース", reading: "Open Source Software / OSS", desc: "ソースコードが公開され、誰でも利用・改変・再配布できるソフトウェア。Linux、Python、Firefox などが代表例。" },
+  { id: "w020", category: "OS・ソフトウェア", term: "シェル", reading: "Shell", desc: "利用者が入力したコマンドを解釈してOSに伝えるプログラム。bash や zsh、PowerShell などがある。" },
+
+  // ===== プログラミング =====
+  { id: "w021", category: "プログラミング", term: "コンパイラ", reading: "Compiler", desc: "C言語などの高水準言語で書かれたソースコードを、実行前にまとめて機械語などの低水準な形式に翻訳するプログラム。" },
+  { id: "w022", category: "プログラミング", term: "インタプリタ", reading: "Interpreter", desc: "ソースコードを1命令ずつ解釈しながら実行するプログラム。事前の翻訳が不要で手軽に実行できる。Python や JavaScript の実行環境などで使われる。" },
+  { id: "w023", category: "プログラミング", term: "変数", reading: "Variable", desc: "データを一時的に入れておくための名前付きの入れ物。値を代入したり、後から読み出したり書き換えたりできる。" },
+  { id: "w024", category: "プログラミング", term: "関数", reading: "Function", desc: "特定の処理をひとまとめにして名前を付けたもの。引数を受け取り、処理結果を戻り値として返す。同じ処理を何度も使い回せる。" },
+  { id: "w025", category: "プログラミング", term: "配列", reading: "Array", desc: "同じ種類のデータを順番に並べて格納するデータ構造。添字（インデックス）を使って各要素にすばやくアクセスできる。" },
+  { id: "w026", category: "プログラミング", term: "再帰", reading: "Recursion", desc: "関数が自分自身を呼び出すこと。階乗の計算や木構造の探索などを簡潔に書けるが、終了条件が必要。" },
+  { id: "w027", category: "プログラミング", term: "オブジェクト指向", reading: "Object-Oriented Programming / OOP", desc: "データとそれを操作する処理をひとまとまりの「オブジェクト」として扱うプログラミングの考え方。カプセル化・継承・ポリモーフィズムが主な特徴。" },
+  { id: "w028", category: "プログラミング", term: "クラス", reading: "Class", desc: "オブジェクト指向で、オブジェクトの設計図となるもの。クラスから作られた具体的なオブジェクトをインスタンスという。" },
+  { id: "w029", category: "プログラミング", term: "例外処理", reading: "Exception Handling", desc: "プログラム実行中に発生したエラー（例外）を捕まえて、適切に対処する仕組み。try〜catch などの構文で書く。" },
+  { id: "w030", category: "プログラミング", term: "ライブラリ", reading: "Library", desc: "よく使う機能を部品としてまとめ、他のプログラムから呼び出して使えるようにしたもの。" },
+
+  // ===== アルゴリズム =====
+  { id: "w031", category: "アルゴリズム", term: "アルゴリズム", reading: "Algorithm", desc: "問題を解決するための明確な手順のこと。同じ問題でも手順によって処理時間や必要なメモリ量が異なる。" },
+  { id: "w032", category: "アルゴリズム", term: "データ構造", reading: "Data Structure", desc: "データを効率よく扱うための格納・整理の方法。配列、連結リスト、スタック、キュー、木構造、ハッシュテーブルなどがある。" },
+  { id: "w033", category: "アルゴリズム", term: "計算量", reading: "Computational Complexity / O記法", desc: "アルゴリズムの効率を、入力サイズに対する処理時間やメモリ量の増え方で表したもの。O(n)、O(log n) のようにO記法で書く。" },
+  { id: "w034", category: "アルゴリズム", term: "スタック", reading: "Stack / LIFO", desc: "最後に入れたデータを最初に取り出す（後入れ先出し）データ構造。関数呼び出しの管理や「元に戻す」機能に使われる。" },
+  { id: "w035", category: "アルゴリズム", term: "キュー", reading: "Queue / FIFO", desc: "最初に入れたデータを最初に取り出す（先入れ先出し）データ構造。順番待ちの処理や印刷待ちなどに使われる。" },
+  { id: "w036", category: "アルゴリズム", term: "二分探索", reading: "Binary Search", desc: "整列済みのデータの中央と比較し、探す範囲を半分ずつ絞り込む探索方法。計算量は O(log n) で高速。" },
+  { id: "w037", category: "アルゴリズム", term: "ソート", reading: "Sort / 整列", desc: "データを一定の順序に並べ替える処理。バブルソート、クイックソート、マージソートなど多くの方法がある。" },
+  { id: "w038", category: "アルゴリズム", term: "ハッシュテーブル", reading: "Hash Table", desc: "キーをハッシュ関数で変換した値を格納場所として使うデータ構造。平均してO(1)の速さで検索・追加ができる。" },
+  { id: "w039", category: "アルゴリズム", term: "木構造", reading: "Tree", desc: "1つの根から枝分かれして節点がつながる階層的なデータ構造。フォルダの階層や二分探索木などに使われる。" },
+  { id: "w040", category: "アルゴリズム", term: "グラフ", reading: "Graph", desc: "頂点（ノード）と、それらを結ぶ辺（エッジ）で関係を表すデータ構造。路線図の経路探索やSNSのつながりの表現に使われる。" },
+
+  // ===== ネットワーク =====
+  { id: "w041", category: "ネットワーク", term: "IPアドレス", reading: "Internet Protocol Address", desc: "ネットワーク上の機器を識別するための番号。IPv4 は32ビット（例: 192.168.0.1）、IPv6 は128ビットで表される。" },
+  { id: "w042", category: "ネットワーク", term: "DNS", reading: "Domain Name System", desc: "「example.com」のようなドメイン名と IPアドレスを対応付ける仕組み。人が覚えやすい名前で Web サイトなどにアクセスできるようにする。" },
+  { id: "w043", category: "ネットワーク", term: "TCP/IP", reading: "Transmission Control Protocol / Internet Protocol", desc: "インターネットで標準的に使われる通信プロトコル群。IP が宛先までの経路制御を、TCP がデータを確実に順序どおり届ける役割を担う。" },
+  { id: "w044", category: "ネットワーク", term: "LAN / WAN", reading: "Local Area Network / Wide Area Network", desc: "LANは家庭や社内など限られた範囲のネットワーク。WANは離れた拠点同士を結ぶ広域のネットワーク。" },
+  { id: "w045", category: "ネットワーク", term: "ルータ", reading: "Router", desc: "異なるネットワーク同士を接続し、IPアドレスをもとにデータの転送先（経路）を決める機器。" },
+  { id: "w046", category: "ネットワーク", term: "MACアドレス", reading: "Media Access Control Address", desc: "ネットワーク機器に製造時に割り当てられる固有の識別番号。48ビットで表され、同じLAN内の通信で使われる。" },
+  { id: "w047", category: "ネットワーク", term: "ポート番号", reading: "Port Number", desc: "1台のコンピュータ上で、通信相手となるアプリケーションを区別するための番号。HTTPは80番、HTTPSは443番が使われる。" },
+  { id: "w048", category: "ネットワーク", term: "DHCP", reading: "Dynamic Host Configuration Protocol", desc: "ネットワークに接続した機器に、IPアドレスなどの設定を自動で割り当てるプロトコル。" },
+  { id: "w049", category: "ネットワーク", term: "OSI参照モデル", reading: "OSI Reference Model", desc: "通信の機能を物理層からアプリケーション層までの7つの階層に分けて整理したモデル。" },
+  { id: "w050", category: "ネットワーク", term: "パケット", reading: "Packet", desc: "ネットワークでデータを送るときに、小さく分割したデータのかたまり。宛先などの情報を持つヘッダが付く。" },
+
+  // ===== Web =====
+  { id: "w051", category: "Web", term: "HTTP / HTTPS", reading: "Hypertext Transfer Protocol (Secure)", desc: "Web ブラウザと Web サーバの間でデータをやり取りするためのプロトコル。HTTPS は TLS で通信を暗号化し、盗聴や改ざんを防ぐ。" },
+  { id: "w052", category: "Web", term: "HTML", reading: "HyperText Markup Language", desc: "Webページの構造を記述するマークアップ言語。見出しや段落、リンク、画像などをタグで表す。" },
+  { id: "w053", category: "Web", term: "CSS", reading: "Cascading Style Sheets", desc: "Webページの色、文字の大きさ、レイアウトなど見た目を指定する言語。HTMLと組み合わせて使う。" },
+  { id: "w054", category: "Web", term: "JavaScript", reading: "JavaScript", desc: "Webページに動きや対話的な機能を加えるプログラミング言語。ブラウザ上で動作するほか、Node.js でサーバ側でも使われる。" },
+  { id: "w055", category: "Web", term: "URL", reading: "Uniform Resource Locator", desc: "インターネット上の情報の場所を示すアドレス。「https://example.com/index.html」のように、プロトコル・ドメイン名・パスなどで構成される。" },
+  { id: "w056", category: "Web", term: "Cookie", reading: "クッキー", desc: "Webサイトがブラウザに保存させる小さなデータ。ログイン状態の保持や、利用者ごとの設定の記憶などに使われる。" },
+  { id: "w057", category: "Web", term: "API", reading: "Application Programming Interface", desc: "ソフトウェア同士が機能やデータをやり取りするための窓口・取り決め。Web API を使うと、外部サービスの機能を自分のプログラムから利用できる。" },
+  { id: "w058", category: "Web", term: "REST", reading: "Representational State Transfer", desc: "Web APIの設計方針の一つ。URLでリソースを表し、GET・POST・PUT・DELETE などのHTTPメソッドで操作する。" },
+  { id: "w059", category: "Web", term: "JSON", reading: "JavaScript Object Notation", desc: "データを「キーと値」の組で表すテキスト形式。軽量で読みやすく、Web APIのデータ交換で広く使われる。" },
+  { id: "w060", category: "Web", term: "レスポンシブデザイン", reading: "Responsive Web Design", desc: "画面の大きさに合わせてレイアウトが自動で変わるWebデザインの手法。1つのページでPCとスマートフォンの両方に対応できる。" },
+
+  // ===== セキュリティ =====
+  { id: "w061", category: "セキュリティ", term: "暗号化", reading: "Encryption", desc: "データを第三者に読めない形に変換すること。元に戻すことを復号という。共通鍵暗号と公開鍵暗号がある。" },
+  { id: "w062", category: "セキュリティ", term: "公開鍵暗号", reading: "Public-Key Cryptography", desc: "公開鍵と秘密鍵のペアを使う暗号方式。公開鍵で暗号化したデータは、対になる秘密鍵でしか復号できない。RSA などがある。" },
+  { id: "w063", category: "セキュリティ", term: "ハッシュ関数", reading: "Hash Function", desc: "任意のデータから固定長の値（ハッシュ値）を作る関数。元のデータに戻せない性質を利用し、パスワード保存や改ざん検知に使う。" },
+  { id: "w064", category: "セキュリティ", term: "ファイアウォール", reading: "Firewall", desc: "ネットワークの境界で通信を監視し、あらかじめ決めたルールに基づいて不正な通信を遮断するセキュリティの仕組み。" },
+  { id: "w065", category: "セキュリティ", term: "マルウェア", reading: "Malware", desc: "悪意を持って作られたソフトウェアの総称。ウイルス、ワーム、トロイの木馬、ランサムウェアなどがある。" },
+  { id: "w066", category: "セキュリティ", term: "フィッシング", reading: "Phishing", desc: "実在する企業などを装った偽のメールやWebサイトで、パスワードやクレジットカード番号をだまし取る手口。" },
+  { id: "w067", category: "セキュリティ", term: "多要素認証", reading: "Multi-Factor Authentication / MFA", desc: "パスワード（知識）に加え、スマートフォン（所持）や指紋（生体）など、異なる種類の要素を組み合わせて本人確認する方法。" },
+  { id: "w068", category: "セキュリティ", term: "SQLインジェクション", reading: "SQL Injection", desc: "入力欄に不正なSQL文を入力し、データベースを不正に操作する攻撃。入力値を適切に処理（プレースホルダの利用など）して防ぐ。" },
+  { id: "w069", category: "セキュリティ", term: "XSS", reading: "Cross-Site Scripting", desc: "Webページに悪意のあるスクリプトを埋め込み、閲覧者のブラウザで実行させる攻撃。出力時のエスケープ処理で防ぐ。" },
+  { id: "w070", category: "セキュリティ", term: "VPN", reading: "Virtual Private Network", desc: "インターネット上に暗号化された仮想的な専用回線を作り、安全に通信する技術。社外から社内ネットワークに接続するときなどに使う。" },
+
+  // ===== データベース =====
+  { id: "w071", category: "データベース", term: "データベース", reading: "Database / DB", desc: "データを整理して蓄積し、検索・更新しやすくしたもの。表形式でデータを管理するリレーショナルデータベース（RDB）が代表的。" },
+  { id: "w072", category: "データベース", term: "SQL", reading: "Structured Query Language", desc: "リレーショナルデータベースを操作するための言語。SELECT（検索）、INSERT（追加）、UPDATE（更新）、DELETE（削除）などの命令がある。" },
+  { id: "w073", category: "データベース", term: "主キー", reading: "Primary Key", desc: "表の中で各行を一意に識別するための列。値の重複や空（NULL）は許されない。" },
+  { id: "w074", category: "データベース", term: "外部キー", reading: "Foreign Key", desc: "他の表の主キーを参照する列。表と表の関連を表し、存在しないデータを参照しないよう整合性を保つ。" },
+  { id: "w075", category: "データベース", term: "正規化", reading: "Normalization", desc: "データの重複や矛盾をなくすために、表を適切に分割して整理すること。第1正規形〜第3正規形などの段階がある。" },
+  { id: "w076", category: "データベース", term: "トランザクション", reading: "Transaction", desc: "複数の処理をひとまとまりとして扱う単位。すべて成功（コミット）か、すべて取り消し（ロールバック）のどちらかになる。" },
+  { id: "w077", category: "データベース", term: "ACID特性", reading: "Atomicity / Consistency / Isolation / Durability", desc: "トランザクションが満たすべき4つの性質。原子性・一貫性・独立性・永続性の頭文字をとったもの。" },
+  { id: "w078", category: "データベース", term: "インデックス", reading: "Index / 索引", desc: "データの検索を速くするために作る索引。本の索引のように、目的の行をすばやく見つけられる。" },
+  { id: "w079", category: "データベース", term: "結合（JOIN）", reading: "Join", desc: "SQLで複数の表を共通の列でつなぎ合わせ、1つの結果として取り出す操作。内部結合や外部結合がある。" },
+  { id: "w080", category: "データベース", term: "NoSQL", reading: "Not only SQL", desc: "表形式にこだわらないデータベースの総称。キー・バリュー型やドキュメント型などがあり、大量データや柔軟な構造に向く。" },
+
+  // ===== AI =====
+  { id: "w081", category: "AI", term: "人工知能", reading: "Artificial Intelligence / AI", desc: "人間の知的な振る舞い（認識、推論、判断、学習など）をコンピュータで実現しようとする技術や研究分野。" },
+  { id: "w082", category: "AI", term: "機械学習", reading: "Machine Learning", desc: "大量のデータからコンピュータが規則性やパターンを学習し、予測や分類を行えるようにする技術。AIの中心的な手法。" },
+  { id: "w083", category: "AI", term: "深層学習", reading: "Deep Learning / ディープラーニング", desc: "多層のニューラルネットワークを使う機械学習の手法。画像認識や音声認識、自然言語処理で大きな成果を上げている。" },
+  { id: "w084", category: "AI", term: "ニューラルネットワーク", reading: "Neural Network", desc: "人間の脳の神経細胞のつながりを模した計算モデル。入力層・中間層（隠れ層）・出力層で構成される。" },
+  { id: "w085", category: "AI", term: "教師あり学習", reading: "Supervised Learning", desc: "正解（ラベル）付きのデータを使って学習する機械学習の方法。分類や回帰の問題に使われる。" },
+  { id: "w086", category: "AI", term: "教師なし学習", reading: "Unsupervised Learning", desc: "正解のないデータから、データの構造やグループを見つけ出す機械学習の方法。クラスタリングなどがある。" },
+  { id: "w087", category: "AI", term: "強化学習", reading: "Reinforcement Learning", desc: "試行錯誤を通じて、得られる報酬が最大になる行動を学習する方法。ゲームAIやロボット制御に使われる。" },
+  { id: "w088", category: "AI", term: "過学習", reading: "Overfitting", desc: "学習データに過度に適合してしまい、未知のデータに対する予測精度が下がる状態。" },
+  { id: "w089", category: "AI", term: "大規模言語モデル", reading: "Large Language Model / LLM", desc: "膨大な文章データで学習した、文章の理解や生成ができるAIモデル。対話型AIや翻訳、要約などに利用される。" },
+  { id: "w090", category: "AI", term: "生成AI", reading: "Generative AI", desc: "学習したデータをもとに、文章・画像・音声・プログラムなどの新しいコンテンツを作り出すAI。" },
+
+  // ===== クラウド・インフラ =====
+  { id: "w091", category: "クラウド・インフラ", term: "クラウドコンピューティング", reading: "Cloud Computing", desc: "サーバやストレージ、ソフトウェアなどをインターネット経由で必要な分だけ利用する形態。" },
+  { id: "w092", category: "クラウド・インフラ", term: "IaaS / PaaS / SaaS", reading: "Infrastructure / Platform / Software as a Service", desc: "クラウドサービスの提供範囲による分類。IaaSはサーバなどの基盤、PaaSは開発・実行環境、SaaSはアプリケーションそのものを提供する。" },
+  { id: "w093", category: "クラウド・インフラ", term: "サーバ", reading: "Server", desc: "ネットワークを通じて、他のコンピュータ（クライアント）に機能やデータを提供するコンピュータやソフトウェア。" },
+  { id: "w094", category: "クラウド・インフラ", term: "仮想化", reading: "Virtualization", desc: "1台の物理的なコンピュータ上で、複数の仮想的なコンピュータ（仮想マシン）を動かす技術。資源を効率よく使える。" },
+  { id: "w095", category: "クラウド・インフラ", term: "コンテナ", reading: "Container / 例: Docker", desc: "アプリケーションと実行に必要な環境をひとまとめにして、他と隔離して動かす技術。仮想マシンより軽量で起動が速い。" },
+  { id: "w096", category: "クラウド・インフラ", term: "ロードバランサ", reading: "Load Balancer / 負荷分散装置", desc: "大量のアクセスを複数のサーバに振り分け、負荷を分散させる仕組み。処理能力と可用性を高める。" },
+  { id: "w097", category: "クラウド・インフラ", term: "CDN", reading: "Content Delivery Network", desc: "Webコンテンツを世界各地のサーバにコピーして配置し、利用者に近いサーバから配信する仕組み。表示が速くなる。" },
+  { id: "w098", category: "クラウド・インフラ", term: "冗長化", reading: "Redundancy", desc: "機器や回線を二重化するなど予備を用意し、一部が故障してもシステムが止まらないようにすること。" },
+  { id: "w099", category: "クラウド・インフラ", term: "IoT", reading: "Internet of Things / モノのインターネット", desc: "家電やセンサー、自動車など、さまざまなモノをインターネットにつなぎ、データの収集や遠隔操作を行う仕組み。" },
+  { id: "w100", category: "クラウド・インフラ", term: "エッジコンピューティング", reading: "Edge Computing", desc: "データの発生源に近い場所（端末や近くのサーバ）で処理を行う方式。通信の遅延を減らし、リアルタイム処理に向く。" },
+
+  // ===== 開発 =====
+  { id: "w101", category: "開発", term: "バージョン管理", reading: "Version Control", desc: "ファイルの変更履歴を記録・管理する仕組み。過去の状態に戻したり、複数人で並行して開発した変更を統合したりできる。" },
+  { id: "w102", category: "開発", term: "Git", reading: "ギット", desc: "代表的な分散型バージョン管理システム。コミットで変更を記録し、ブランチで作業を分けて並行開発できる。" },
+  { id: "w103", category: "開発", term: "バグ / デバッグ", reading: "Bug / Debug", desc: "バグはプログラムに含まれる誤りや欠陥のこと。バグを見つけて取り除く作業をデバッグという。" },
+  { id: "w104", category: "開発", term: "単体テスト", reading: "Unit Test", desc: "関数やクラスなど、プログラムの小さな単位ごとに正しく動くかを確かめるテスト。" },
+  { id: "w105", category: "開発", term: "ウォーターフォール", reading: "Waterfall Model", desc: "要件定義→設計→実装→テストと、工程を順番に進める開発手法。原則として前の工程には戻らない。" },
+  { id: "w106", category: "開発", term: "アジャイル", reading: "Agile Development", desc: "短い期間で計画・実装・テストを繰り返し、変化に柔軟に対応しながら開発を進める手法。スクラムが代表的。" },
+  { id: "w107", category: "開発", term: "CI/CD", reading: "Continuous Integration / Continuous Delivery", desc: "コードの変更を自動でビルド・テストし（CI）、自動で本番環境などへ届ける（CD）仕組み。" },
+  { id: "w108", category: "開発", term: "リファクタリング", reading: "Refactoring", desc: "プログラムの動作を変えずに、内部の構造を読みやすく保守しやすい形に整理すること。" },
+  { id: "w109", category: "開発", term: "フレームワーク", reading: "Framework", desc: "アプリケーション開発の土台となる骨組み。共通の処理が用意されており、決められた流れに沿って開発できる。React や Django など。" },
+  { id: "w110", category: "開発", term: "UI / UX", reading: "User Interface / User Experience", desc: "UIは画面やボタンなど利用者との接点。UXは製品やサービスを使って得られる体験全体を指す。" }
+];
